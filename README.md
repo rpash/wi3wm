@@ -1,28 +1,7 @@
-# windows-desktop-switcher
-An AutoHotkey script for Windows that lets a user switch virtual desktops by pressing <kbd>CapsLock</kbd> and a number row key at the sime time (e.g. <kbd>CapsLock</kbd> + <kbd>2</kbd> to switch to Desktop 2). It also provides other features, such as customizing the key combinations, creation/deletion of desktops by hotkey, etc. (see Hotkeys section below).
+# i3wm behavior for Windows
+An AutoHotkey script for Windows that lets a user switch virtual desktops by pressing <kbd>Super</kbd> and a number row key at the sime time (e.g. <kbd>Super</kbd> + <kbd>2</kbd> to switch to Desktop 2). This is meant to mimic a (very small) subset the behavior of [i3wm](https://github.com/i3/i3), the best window manager.
 
-## Hotkeys
-
-Action | Keys 
---- | :-:
-**Switch** to virtual desktop **1, 2, etc.**<br>*(you can also use the Numpad)*|<kbd>CapsLock</kbd> + <kbd>1</kbd><br><kbd>CapsLock</kbd> + <kbd>2</kbd><br>...
-**Switch back** to the last desktop used|<kbd>CapsLock</kbd> + <kbd>Tab</kbd>
-**Switch** to the virtual desktop on the **left**<br>*(auto-cycles from the first to the last desktop)*|<kbd>CapsLock</kbd> + <kbd>A</kbd><br><kbd>CapsLock</kbd> + <kbd>P</kbd>
-**Switch** to the virtual desktop on the **right**<br>*(auto-cycles from the last to the first desktop)*|<kbd>CapsLock</kbd> + <kbd>S</kbd><br><kbd>CapsLock</kbd> + <kbd>N</kbd>
-**Create** a new virtual desktop|**<kbd>CapsLock</kbd> + <kbd>C</kbd>**
-**Delete** the current virtual desktop|<kbd>CapsLock</kbd> + <kbd>D</kbd>
-**Move** the current window to another desktop, then switch to it<br>*Keys <kbd>Q</kbd>, <kbd>W</kbd>, etc. correspond to 1st, 2nd, etc. desktops*|<kbd>CapsLock</kbd> + <kbd>Q</kbd><br><kbd>CapsLock</kbd> + <kbd>W</kbd><br>...
-
-Note, <kbd>CapsLock</kbd> continues to function normally even when it is used as a modifier.
-
-If you'd like, you can [enable the alternate configuration](https://github.com/pmb6tz/windows-desktop-switcher/issues/44), to use <kbd>Ctrl</kbd> + <kbd>Alt</kbd> as hotkey combination keys instead of <kbd>CapsLock</kbd> (e.g. use <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>1</kbd> to switch to the Desktop 1, just as you would use <kbd>CapsLock</kbd> + <kbd>1</kbd>).
-
-Additional hotkeys, such as [pinning a window or app on all workspaces](https://github.com/pmb6tz/windows-desktop-switcher/issues/55), can be added as well.
-
-You can also customize the hotkeys and actions as described in the section below.
-
-## Overview
-This script creates more convenient hotkeys for switching virtual desktops in Windows 10. I built this to better mirror the mapping I use on linux (with dwm), and it's always annoyed me that Windows does not have better hotkey support for this feature (for instance, there's no way to go directly to a desktop by number).
+By default the <kbd>Super</kbd> key is set to the <kbd>Windows</kbd> key, however this can be changed by modifying `user_config.ahk`.
 
 ## Running
 [Install AutoHotkey](https://autohotkey.com/download/) v1.1 or later, then run the `desktop_switcher.ahk` script (open with AutoHotkey if prompted). You can disable the switching animation by opening "Adjust the appearance and performance of Windows" and then unselecting the checkmark "Animate windows when minimizing and maximizing".
@@ -39,14 +18,13 @@ To change the key mappings, modify the `user_config.ahk` script and then run `de
 
 Single line of code example | Meaning
 --- | ---
-`!n::switchDesktopToRight()`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | **Hotkey:** <kbd>Alt</kbd> + <kbd>N</kbd><br>**Action:** Switch to the desktop on the right
-`#!space::switchDesktopToRight()` | **Hotkey:** <kbd>Win</kbd> + <kbd>Alt</kbd> + <kbd>Space</kbd><br>**Action:** Switch to the desktop on the right
-`CapsLock & n::switchDesktopToRight()` | **Hotkey:** <kbd>Capslock</kbd> + <kbd>N</kbd><br>**Action:** Switch to the desktop on the right<br>*(& is necessary when using a non-modifier key such as Capslock)*
-`!n::switchDesktopToRight()` | **Hotkey:** <kbd>Alt</kbd> + <kbd>N</kbd><br>**Action:** Switch to the desktop on the right
+`!2::switchToDesktop(2)`| **Hotkey:** <kbd>Alt</kbd> + <kbd>2</kbd><br>**Action:** Switch to desktop 2
+`#!3::switchToDesktop(3)` | **Hotkey:** <kbd>Win</kbd> + <kbd>Alt</kbd> + <kbd>3</kbd><br>**Action:** Switch to desktop 3
+`CapsLock & 4::switchToDesktop(4)` | **Hotkey:** <kbd>Capslock</kbd> + <kbd>4</kbd><br>**Action:** Switch to desktop 4<br>*(& is necessary when using a non-modifier key such as <kbd>CapsLock</kbd>)*
+`#+2::moveCurrentWindowToDesktop(2)` | **Hotkey:** <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>2</kbd><br>**Action:** Move current window to desktop 2
 `^space::send, #{tab} ` | **Hotkey:** <kbd>Ctrl</kbd> + <kbd>Space</kbd><br>**Action:** Open Desktop Manager by sending <kbd>Win</kbd> + <kbd>Tab</kbd>
 
 A more detailed description of hotkeys can be found here: [AutoHotkey docs](https://autohotkey.com/docs/Hotkeys.htm).<br>
-You can find the explanation for the Desktop Manager hotkey [here](https://github.com/pmb6tz/windows-desktop-switcher/issues/41).<br>
 After any changes to the configuration the program needs to be closed and opened again.
 
 ## Running on boot
@@ -79,7 +57,8 @@ The task is now registered and will run on the next logon, and can be viewed or 
 
 ## Credits
 
-- Thanks to [Ciantic/VirtualDesktopAccessor](https://github.com/Ciantic/VirtualDesktopAccessor) (DLL) and [sdias/win-10-virtual-desktop-enhancer](https://github.com/sdias/win-10-virtual-desktop-enhancer) (DLL usage samples), our code can now move windows between desktops.
+- Thanks to [Ciantic/VirtualDesktopAccessor](https://github.com/Ciantic/VirtualDesktopAccessor) (DLL) and [sdias/win-10-virtual-desktop-enhancer](https://github.com/sdias/win-10-virtual-desktop-enhancer) (DLL usage samples), this code can now move windows between desktops.
+- Thanks to [pmb6tz/windows-desktop-switcher](https://github.com/pmb6tz/windows-desktop-switcher) for providing the AutoHotkey script to change desktops which was modified to create this script.
 
 ## Other
 To see debug messages, download [SysInternals DebugView](https://technet.microsoft.com/en-us/sysinternals/debugview).
